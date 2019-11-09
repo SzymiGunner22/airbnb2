@@ -1,43 +1,54 @@
 package com.nbd.airbnb;
 
-
 import com.nbd.airbnb.models.Booking;
 import com.nbd.airbnb.repositories.AirbnbRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/booking")
-public class BookingController {
+public class BookingController
+{
     @Autowired
     private AirbnbRepository repository;
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public List<Booking> getAllBookings(){
+
+    @PostMapping(value = "/booking")
+    public Booking addBooking(@Valid @RequestBody Booking booking)
+    {
+        if (getBooking(booking.getId()) == null)
+        {
+            booking.set_id(ObjectId.get());
+            repository.save(booking);
+            return booking;
+        }
+        return null;
+    }
+
+    @GetMapping("/booking/{id}")
+    public Booking getBooking(@PathVariable Integer id)
+    {
+        return repository.findOneById(id);
+    }
+
+    @GetMapping("/bookings")
+    public List<Booking> getAllBookings()
+    {
         return repository.findAll();
     }
 
-    @RequestMapping(value = "/{_id}", method = RequestMethod.GET)
-    public Booking getPetById(@PathVariable("_id") ObjectId _id) {
-        return repository.findBy_id(_id);
+    @PutMapping("/booking/{id}")
+    public void updateBooking(@PathVariable Integer id, @Valid @RequestBody Booking booking)
+    {
+        booking.setId(id);
+        repository.save(booking);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
-    public Booking createBooking(@Valid @RequestBody Booking book) {
-        book.set_id(ObjectId.get());
-        repository.save(book);
-        return book;
-    }
-
-    @RequestMapping(value = "/{_id}", method = RequestMethod.DELETE)
-    public void deleteBooking(@PathVariable ObjectId _id) {
-        repository.delete(repository.findBy_id(_id));
+    @DeleteMapping("booking/{id}")
+    public void deleteBooking(@PathVariable Integer id)
+    {
+        repository.delete(repository.findOneById(id));
     }
 }
