@@ -7,8 +7,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "airbnb")
 public class Booking
 {
-    @Id
     private ObjectId _id;
+    @Id
     private Integer id;
     private String name;
     private Integer host_id;
@@ -47,9 +47,9 @@ public class Booking
         this.availability_365 = availability_365;
     }
 
-    public String get_id()
+    public ObjectId get_id()
     {
-        return _id.toHexString();
+        return _id;
     }
 
     public void set_id(ObjectId _id)

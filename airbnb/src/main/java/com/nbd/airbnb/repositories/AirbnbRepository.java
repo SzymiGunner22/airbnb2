@@ -5,5 +5,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface AirbnbRepository extends MongoRepository<Booking, Integer>
 {
-    Booking findOneById(Integer Id);
+    Booking findOneById(Integer id);
 }

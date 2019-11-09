@@ -2,8 +2,10 @@ package com.nbd.airbnb;
 
 import com.nbd.airbnb.models.Booking;
 import com.nbd.airbnb.repositories.AirbnbRepository;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -15,12 +17,11 @@ public class BookingController
     @Autowired
     private AirbnbRepository repository;
 
-    @PostMapping(value = "/booking")
+    @PostMapping("/booking")
     public Booking addBooking(@Valid @RequestBody Booking booking)
     {
         if (getBooking(booking.getId()) == null)
         {
-            booking.set_id(ObjectId.get());
             repository.save(booking);
             return booking;
         }
@@ -42,6 +43,7 @@ public class BookingController
     @PutMapping("/booking/{id}")
     public void updateBooking(@PathVariable Integer id, @Valid @RequestBody Booking booking)
     {
+        booking.set_id(getBooking(id).get_id());
         booking.setId(id);
         repository.save(booking);
     }
