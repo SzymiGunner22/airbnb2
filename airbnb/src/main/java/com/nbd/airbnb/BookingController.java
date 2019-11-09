@@ -30,8 +30,8 @@ public class BookingController {
         return book;
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deletePet(@PathVariable Integer id) {
-        repository.delete(repository.findBy_id(id));
+    @RequestMapping(value = "/{_id}", method = RequestMethod.DELETE)
+    public void deleteBooking(@PathVariable ObjectId _id) {
+        repository.delete(repository.findBy_id(_id));
     }
 }
