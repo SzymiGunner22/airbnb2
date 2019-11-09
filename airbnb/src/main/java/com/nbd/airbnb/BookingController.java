@@ -3,9 +3,6 @@ package com.nbd.airbnb;
 import com.nbd.airbnb.models.Booking;
 import com.nbd.airbnb.repositories.AirbnbRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
