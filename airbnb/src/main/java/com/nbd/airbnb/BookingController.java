@@ -23,6 +23,12 @@ public class BookingController {
     public List<Booking> getAllBookings(){
         return repository.findAll();
     }
+
+    @RequestMapping(value = "/{_id}", method = RequestMethod.GET)
+    public Booking getPetById(@PathVariable("_id") ObjectId _id) {
+        return repository.findBy_id(_id);
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public Booking createBooking(@Valid @RequestBody Booking book) {
         book.set_id(ObjectId.get());
